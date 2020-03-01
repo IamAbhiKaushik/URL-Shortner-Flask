@@ -35,3 +35,4 @@ Helpful URLs:
 2. https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/
 
 3. https://runnable.com/docker/python/dockerize-your-flask-application
+4. https://scotch.io/bar-talk/processing-incoming-request-data-in-flask
