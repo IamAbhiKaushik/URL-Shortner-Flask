@@ -6,8 +6,8 @@ from bson.json_util import dumps
 from datetime import datetime
 
 app = Flask(__name__)
-# mongo = MongoClient('mongodb://mongo/test')
-mongo = MongoClient('mongodb://localhost:27017').db
+mongo = MongoClient('mongodb://mongo/test')
+# mongo = MongoClient('mongodb://localhost:27017').db
 BASE_URL = "http://localhost:5000"
 
 @app.route("/")
@@ -127,6 +127,6 @@ def setup_database():
 # "createdAt": datetime.datetime.now(),
 
 if __name__ == "__main__":
-	setup_database()
+	# setup_database()
 	app.run(debug=True, host='0.0.0.0')
 
