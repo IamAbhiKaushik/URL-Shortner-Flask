@@ -29,6 +29,9 @@ Visit http://0.0.0.0:5000/ or http://localhost:5000 to verify Flask running
 
 Visit `http://localhost:5000/add_url` or `http://localhost:5000/find_url` to test mongo running
 
+Update: V03
+1. Added expire date of an entiry. You can change it in setup_database() function. Entry will be deleted if you don't call it in last 2 days.
+2. Added functions for incrementing no of visits on a particular URL.
 
 Helpful URLs: 
 1. https://medium.com/datadriveninvestor/writing-a-simple-flask-web-application-in-80-lines-cb5c386b089a

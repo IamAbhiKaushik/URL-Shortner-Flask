@@ -1,13 +1,14 @@
 from flask import Flask, abort, request, redirect
 from pymongo import MongoClient
+# from pymongo
 import string
 import random
 from bson.json_util import dumps
 from datetime import datetime
 
 app = Flask(__name__)
-mongo = MongoClient('mongodb://mongo/test').db
-# mongo = MongoClient('mongodb://localhost:27017').db
+# mongo = MongoClient('mongodb://mongo/test').db
+mongo = MongoClient('mongodb://localhost:27017').db
 BASE_URL = "http://localhost:5000"
 
 @app.route("/")
@@ -43,7 +44,7 @@ def minify():
 		previous_record = mongo.record_table.find_one({"custom_url": custom_url})
 		if not previous_record and (4 <=len(custom_url) <= 8):
 			insert_response = mongo.record_table.insert_one({
-				"createdAt": datetime.utcnow(),
+				"updated_at": datetime.utcnow(),
 				'original_url': request_data['original_url'],
 				'custom_url': request_data['custom_url'],
 				'visits': 0
@@ -56,7 +57,7 @@ def minify():
 	else:
 		custom_url = id_generator()
 		insert_response = mongo.record_table.insert_one({
-			"createdAt": datetime.utcnow(),
+			"updated_at": datetime.utcnow(),
 			'original_url': request_data['original_url'],
 			'custom_url': custom_url,
 			'visits': 0
@@ -92,6 +93,7 @@ def redirect_to_url(custom_url):
 	response = mongo.record_table.find_one({"custom_url": custom_url})
 	if response:
 		response['visits'] = int(response['visits'])+1
+		response['updated_at'] = datetime.utcnow(),
 		mongo.record_table.update({'custom_url': response['custom_url']}, response)
 		# return redirect(response['original_url'])
 		return dumps(response)
@@ -128,13 +130,12 @@ def id_generator(size=6, chars=string.ascii_uppercase+ string.ascii_lowercase + 
 	return id_generator()
 
 def setup_database():
-	mongo.record_table.ensure_index("createdAt", expireAfterSeconds=60)       
 	mongo.record_table.create_index("custom_url")
-	# pass
-
-# "createdAt": datetime.datetime.now(),
+	#	Set an expire for entries that are not used for last 2 Days = 172800 
+	mongo.record_table.ensure_index("updated_at", expireAfterSeconds=172800) 
+	
 
 if __name__ == "__main__":
-	# setup_database()
+	setup_database()
 	app.run(debug=True, host='0.0.0.0')
 
