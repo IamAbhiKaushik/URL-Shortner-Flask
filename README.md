@@ -29,6 +29,9 @@ Visit http://0.0.0.0:5000/ or http://localhost:5000 to verify Flask running
 
 Visit `http://localhost:5000/add_url` or `http://localhost:5000/find_url` to test mongo running
 
+Update: V03
+1. Added expire date of an entiry. You can change it in setup_database() function. Entry will be deleted if you don't call it in last 2 days.
+2. Added functions for incrementing no of visits on a particular URL.
 
 Helpful URLs: 
 1. https://medium.com/datadriveninvestor/writing-a-simple-flask-web-application-in-80-lines-cb5c386b089a
@@ -37,3 +40,23 @@ Helpful URLs:
 3. https://runnable.com/docker/python/dockerize-your-flask-application
 4. https://scotch.io/bar-talk/processing-incoming-request-data-in-flask
 5. https://docs.mongodb.com/manual/core/index-unique/
+
+## APIs Exposed
+Base URL: http://localhost:5000
+
+1. /	-- GET - to get all the entries stored in the database
+2. /api/minify		-- POST - to add a new url entry in the database
+`
+{
+  "original_url": "google.com"
+}
+OR
+{
+  "original_url": "google.com",
+  "custom_url": "<your_choice_of_custom_url>"
+}
+`
+
+3. /<custom_url>	-- GET - will redirect to added original url for this given custom url
+
+4. /visits/<custom_url>		-- GET - to get total views of a specific custom URL
