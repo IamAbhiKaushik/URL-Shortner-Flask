@@ -37,3 +37,23 @@ Helpful URLs:
 3. https://runnable.com/docker/python/dockerize-your-flask-application
 4. https://scotch.io/bar-talk/processing-incoming-request-data-in-flask
 5. https://docs.mongodb.com/manual/core/index-unique/
+
+## APIs Exposed
+Base URL: http://localhost:5000
+
+1. /	-- GET - to get all the entries stored in the database
+2. /api/minify		-- POST - to add a new url entry in the database
+`
+{
+  "original_url": "google.com"
+}
+OR
+{
+  "original_url": "google.com",
+  "custom_url": "<your_choice_of_custom_url>"
+}
+`
+
+3. /<custom_url>	-- GET - will redirect to added original url for this given custom url
+
+4. /visits/<custom_url>		-- GET - to get total views of a specific custom URL
